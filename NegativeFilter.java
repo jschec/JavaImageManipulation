@@ -17,8 +17,6 @@ public class NegativeFilter implements Filter {
 	 */
 	public void filter(PixelImage pi) {
 		Pixel[][] data = pi.getData();
-		Pixel[][] modifiedData = 
-				new Pixel[pi.getHeight()][pi.getWidth()];
 		
 		for (int row = 0; row < pi.getHeight(); row++) {
 			for (int col = 0; col < pi.getWidth(); col++) {
@@ -27,11 +25,9 @@ public class NegativeFilter implements Filter {
 				pixel.red = 255 - pixel.red;
 				pixel.green = 255 - pixel.green;
 				pixel.blue = 255 - pixel.blue;
-				
-				modifiedData[row][col] = pixel;
 			}
 		}
 		
-		pi.setData(modifiedData);
+		pi.setData(data);
 	}
 }

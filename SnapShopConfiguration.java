@@ -1,39 +1,43 @@
 // Write your short report here (-2 if there is no report)
-
 /**
- * Report:
+ * Short report
  * 
- * What additional filters we used:
- * 1) Subtle Sharpen filter - which is supposed to provide
- * a means to sharpen an image while filtering out some noise
- * and not make the edges stand out too much. You will find that
- * this required a 5x5 weighted filtering matrix
- * 2) Emboss
+ * Additional filters we wrote:
+ *	1) UnsharpMaskingFilter.java -
+ * 		Uses a 5x5 kernel to sharpen an image and reduce its noise
+ * 		which reduces the exaggeration of the edges. Our code is
+ * 		robust enough to handle a 5x5 grid.
+ *	2) GrayScaleFilter.java -
+ *		Modify each rgb value in each Pixel by making them each equal
+ *		to the weighted sum after applying rgb weights. This produces
+ *		a 2d Pixel matrix with a gray scale.
+ *	3) PurpleFilter.java -
+ *		Set each green value in each Pixel to zero which allows the
+ *		different combinations of different blue and red intensities,
+ *		thus producing an image with purple tones.
+ *
+ * What works and what doesn't?
+ * 		All of the required and extra filters work as expected when
+ * 		comparing them with reference images. No noticeable side 
+ * 		effects.
  * 
- * 
- * 
- * What works and what doesn't:
- * All the requested filters match the references images
- * and no abnormalities were observed.
- * 
- * 
- * Surprises or problems encountered:
- * We had issues with matching the reference images initially
- * but realized that the mismatch arose because we directly
- * modified the initial 2d Pixel matrix. This was solved by
- * declaring a new pixel matrix to be modified, however, we
- * subsequently had to match missing pixels that occured on the
- * edges of the image where the filter did not reach.
- * 
+ * Surprises or problems we encountered while implementing these 
+ * transformations?
+ * 		At first the 3x3 transformations were challenging because
+ * 		we directly modified the initial 2d Pixel matrix. This,
+ * 		however, is wrong because modifying the reference 2d matrix
+ * 		will ruin change neighboring Pixels that will alter subsequent
+ * 		calculations. We quickly addressed this issue by reading the
+ * 		assignment document more carefully and creating a 2nd 2d matrix
+ * 		to store the new Pixels.
  */
-
 
 
 /**
  * A class to configure the SnapShop application
  * 
  * @author Joshua Scheck
- * @version 2020/03/07
+ * @version 2020/03/06
  */
 public class SnapShopConfiguration {
 	/**
@@ -57,9 +61,8 @@ public class SnapShopConfiguration {
 		theShop.addFilter(new EdgyFilter(), "Edgy Filter");
 		
 		// Extra filters
-		theShop.addFilter(new EmbossFilter(), "Emboss Filter");
 		theShop.addFilter(new SubtleSharpenFilter(), "Subtle Sharpen Filter");
-		theShop.addFilter(new MedianFilter(), "Median Filter");
 		theShop.addFilter(new GrayScaleFilter(), "Gray Scale Filter");
+		theShop.addFilter(new PurpleFilter(), "Purple Filter");
 	}
 }

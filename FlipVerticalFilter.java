@@ -9,8 +9,8 @@
 public class FlipVerticalFilter implements Filter {
 	
 	/**
-	 * Takes Pixels from opposite ends of x axis and maps the
-	 * opposite rgb Pixel values to each other.
+	 * Takes Pixels from opposite vertical sides and swaps their
+	 * values
 	 *
 	 * @param	pi	2d Pixel matrix
 	 */

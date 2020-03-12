@@ -9,7 +9,7 @@
 public class UnsharpMaskingFilter implements Filter {
 
 	/**
-	 * Takes Unsharp Masking weighted matrix and applies the weights 
+	 * Takes Unsharp Masking weighted matrix and applies the weights
 	 * and calculates the weighted average of the target and 
 	 * neighboring Pixels. Values set to range of 0 to 255.
 	 * 

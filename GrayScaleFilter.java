@@ -16,27 +16,25 @@ public class GrayScaleFilter implements Filter {
 	 * @param	pi	2d Pixel matrix
 	 */
 	public void filter(PixelImage pi) {
-		final double redScale = 0.299;
-		final double greenScale = 0.587;
-		final double blueScale = 0.114;
+		final double RED_SCALE = 0.299;
+		final double GREEN_SCALE = 0.587;
+		final double BLUE_SCALE = 0.114;
 		
 		Pixel[][] data = pi.getData();
-		Pixel[][] modifiedData = 
-				new Pixel[pi.getHeight()][pi.getWidth()];
 		
 		for (int row = 0; row < pi.getHeight(); row++) {
 			for (int col = 0; col < pi.getWidth(); col++) {
 				Pixel pixel = data[row][col];
 				
-				int r = (int)(pixel.red * redScale);
-			    int g = (int)(pixel.green * greenScale);
-			    int b = (int)(pixel.blue * blueScale);
+				int r = (int)(pixel.red * RED_SCALE);
+			    int g = (int)(pixel.green * GREEN_SCALE);
+			    int b = (int)(pixel.blue * BLUE_SCALE);
 			    int rgbSum = r + g + b;
 			    
-				modifiedData[row][col] = new Pixel(rgbSum, rgbSum, rgbSum);
+				data[row][col] = new Pixel(rgbSum, rgbSum, rgbSum);
 			}
 		}
 		
-		pi.setData(modifiedData);
+		pi.setData(data);
 	}
 }

@@ -1,5 +1,5 @@
 /**
- * Applies Guassian filter to the designated 2d Pixel matrix,
+ * Applies Gaussian filter to the designated 2d Pixel matrix,
  * which blurs image and removes noise and detail
  * 
  * @author 	Joshua Scheck
@@ -10,7 +10,7 @@
 public class GaussianFilter implements Filter {
 
 	/**
-	 * Takes Guassian weighted matrix and applies the weights and 
+	 * Takes Gaussian weighted matrix and applies the weights and 
 	 * calculates the weighted average of the target and neighboring
 	 * Pixels. Values set to range of 0 to 255.
 	 * 

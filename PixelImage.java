@@ -106,7 +106,8 @@ public class PixelImage {
 	 * to target pixel
 	 * @return	return modified 2d pixel matrix
 	 */
-	public Pixel[][] getTransformedData(GridWeights weights, String operation) {
+	public Pixel[][] getTransformedData(
+			GridWeights weights, String operation) {
 		int gridHeight = weights.getHeight();
 		int gridWidth = weights.getWidth();
 		int gridHeightMargin = (gridHeight - 1) / 2; 
@@ -117,7 +118,8 @@ public class PixelImage {
 		Pixel[][] data = this.getData();
 		
 		// Declare new 2d Pixel matrix to add new Pixels
-		Pixel[][] modifiedData = new Pixel[this.height][this.width];
+		Pixel[][] modifiedData = 
+				new Pixel[this.height][this.width];
 		
 		int lastRow = this.height - 1;
 		int lastCol = this.width - 1;
@@ -128,26 +130,22 @@ public class PixelImage {
 			modifiedData[lastRow - i] = data[lastRow - i];
 		}
 		
-		
-		//old not scalable method
-		//modifiedData[0] = data[0];
-		//modifiedData[lastRow] = data[lastRow];
-		
 		// iterate through rows available after subtracting margins
-		for (int row = gridHeightMargin; row < this.height - gridHeightMargin; row++) {
-			
-			//old not scalable method
-			//modifiedData[row][0] = data[row][0];
-			//modifiedData[row][lastCol] = data[row][lastCol];
+		for (int row = gridHeightMargin; 
+				row < this.height - gridHeightMargin; row++) {
 			
 			// Add unmodified pixels missed by filter
 			for (int i = 0; i < gridWidthMargin; i++) {
 				modifiedData[row][i] = data[row][i];
-				modifiedData[row][lastCol - i] = data[row][lastCol - i];
+				modifiedData[row][lastCol - i] = 
+						data[row][lastCol - i];
 			}
 			
 			
-			// iterate through columns available after subtracting margins
+			/*
+			 * iterate through columns available after subtracting
+			 * margins
+			 */
 			for (int col = gridWidthMargin; col < this.width - gridWidthMargin; col++) {
 				
 				int redPixelWeightedSum = 0;
@@ -157,32 +155,46 @@ public class PixelImage {
 				int startGridRow = row - gridHeightMargin;
 				int startGridCol = col - gridWidthMargin;
 				
-				// calculate weighted sum for target pixel after applying grid to target pixel
-				// and neighboring pixels
+				/*
+				 * calculate weighted sum for target pixel after
+				 * applying grid to target pixel and neighboring
+				 * pixels
+				 */
 				for (int gridRow = 0; gridRow < gridHeight; gridRow++) {
 					for ( int gridColumn = 0; gridColumn < gridWidth; gridColumn++) {
 						Pixel pixel = data[gridRow+startGridRow][gridColumn+startGridCol];
-						redPixelWeightedSum += pixel.red * weights.getPositionWeight(gridRow, gridColumn);
-						greenPixelWeightedSum += pixel.green * weights.getPositionWeight(gridRow, gridColumn);
-						bluePixelWeightedSum += pixel.blue * weights.getPositionWeight(gridRow, gridColumn);
-					} 
+						redPixelWeightedSum += 
+								pixel.red * weights.getPositionWeight(gridRow, gridColumn);
+						greenPixelWeightedSum += 
+								pixel.green * weights.getPositionWeight(gridRow, gridColumn);
+						bluePixelWeightedSum += 
+								pixel.blue * weights.getPositionWeight(gridRow, gridColumn);
+					}
 				}
 				
-				
 				if ("average".equals(operation)) {
-					// takes weighted sum for each rgb pixel and divides by total weight of
-					// supplied weighted grid
+					/*
+					 *  takes weighted sum for each rgb pixel and divides by total 
+					 *  weight of supplied weighted grid
+					 */
 					int redPixelWeightedAvg = redPixelWeightedSum / gridTotalWeight;
 					int greenPixelWeightedAvg = greenPixelWeightedSum / gridTotalWeight;
 					int bluePixelWeightedAvg = bluePixelWeightedSum / gridTotalWeight;
 					
-					// rgb int values above 255 are set to 255 and values below 0 are set to 0
+					/* 
+					 * rgb int values above 255 are set to 255 and values below 0 are 
+					 * set to 0
+					 */
 					redPixelWeightedAvg = Math.min(255, Math.max(0, redPixelWeightedAvg));
 					greenPixelWeightedAvg = Math.min(255, Math.max(0, greenPixelWeightedAvg));
 					bluePixelWeightedAvg = Math.min(255, Math.max(0, bluePixelWeightedAvg));
 					
-					// Adds new pixel to modified 2d pixel matrix at specific row and column coordinates
-					Pixel newPixel = new Pixel(redPixelWeightedAvg, greenPixelWeightedAvg, bluePixelWeightedAvg);
+					/* 
+					 * Adds new pixel to modified 2d pixel matrix at specific row and 
+					 * column coordinates
+					 */
+					Pixel newPixel = 
+							new Pixel(redPixelWeightedAvg, greenPixelWeightedAvg, bluePixelWeightedAvg);
 					modifiedData[row][col] = newPixel;
 					
 				} else if ("sum".equals(operation)) {
@@ -193,8 +205,12 @@ public class PixelImage {
 					greenPixelWeightedSum = Math.min(255, Math.max(0, greenPixelWeightedSum));
 					bluePixelWeightedSum = Math.min(255, Math.max(0, bluePixelWeightedSum));
 					
-					// Adds new pixel to modified 2d pixel matrix at specific row and column coordinates
-					Pixel newPixel = new Pixel(redPixelWeightedSum, greenPixelWeightedSum, bluePixelWeightedSum);
+					/*
+					 *  Adds new pixel to modified 2d pixel matrix at specific row and column 
+					 *  coordinates
+					 */
+					Pixel newPixel = 
+							new Pixel(redPixelWeightedSum, greenPixelWeightedSum, bluePixelWeightedSum);
 					modifiedData[row][col] = newPixel;
 					
 				} else {
